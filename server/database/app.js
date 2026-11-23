@@ -56,19 +56,37 @@ app.get('/fetchReviews/dealer/:id', async (req, res) => {
   }
 });
 
-// Express route to fetch all dealerships
+// 1. Route pour récupérer TOUS les dealers
 app.get('/fetchDealers', async (req, res) => {
-//Write your code here
+    try {
+        const dealers = await Dealers.find({});
+        res.json(dealers);
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
 });
 
-// Express route to fetch Dealers by a particular state
+// 2. Route pour récupérer les dealers par ÉTAT (state)
 app.get('/fetchDealers/:state', async (req, res) => {
-//Write your code here
+    try {
+        const state = req.params.state;
+        const dealers = await Dealers.find({ state: state });
+        res.json(dealers);
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
 });
 
-// Express route to fetch dealer by a particular id
+// 3. Route pour récupérer UN SEUL dealer par son ID (C'est la ligne 70 sur ton écran)
 app.get('/fetchDealer/:id', async (req, res) => {
-//Write your code here
+    try {
+        const id = req.params.id;
+        // On cherche par le champ 'id' tel qu'il est défini dans ta base
+        const dealer = await Dealers.findOne({ id: id });
+        res.json(dealer);
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
 });
 
 //Express route to insert review
