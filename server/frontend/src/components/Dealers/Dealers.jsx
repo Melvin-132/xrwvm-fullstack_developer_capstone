@@ -15,16 +15,25 @@ const Dealers = () => {
   let dealer_url_by_state = "/djangoapp/get_dealers/";
  
   const filterDealers = async (state) => {
-    dealer_url_by_state = dealer_url_by_state+state;
-    const res = await fetch(dealer_url_by_state, {
-      method: "GET"
+    // 1. On définit l'URL de base À L'INTÉRIEUR de la fonction pour qu'elle soit neuve à chaque appel
+    let url = "/djangoapp/get_dealers";
+
+    // 2. Si un état est sélectionné (et n'est pas vide), on l'ajoute à l'URL
+    if (state && state !== "") {
+        url = url + "/" + state;
+    }
+
+    // 3. On fait l'appel avec la bonne URL
+    const res = await fetch(url, {
+        method: "GET"
     });
     const retobj = await res.json();
-    if(retobj.status === 200) {
-      let state_dealers = Array.from(retobj.dealers)
-      setDealersList(state_dealers)
+    
+    if (retobj.status === 200) {
+        let state_dealers = Array.from(retobj.dealers);
+        setDealersList(state_dealers);
     }
-  }
+}
 
   const get_dealers = async ()=>{
     const res = await fetch(dealer_url, {
