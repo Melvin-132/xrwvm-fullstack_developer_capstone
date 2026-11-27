@@ -57,11 +57,16 @@ const PostReview = () => {
       body: jsoninput,
   });
 
-  const json = await res.json();
-  if (json.status === 200) {
-      window.location.href = window.location.origin+"/dealer/"+id;
-  }
+    const json = await res.json();
+        console.log(json); // Pour voir ce que le serveur renvoie vraiment dans la console (F12)
 
+        // On vérifie si la requête a réussi (code 200-299)
+        if (res.ok) {
+            // Redirection vers la page des détails du concessionnaire
+            window.location.href = window.location.origin + "/dealer/" + id;
+        } else {
+            alert("Erreur lors de l'enregistrement de l'avis.");
+        }
   }
   const get_dealer = async ()=>{
     const res = await fetch(dealer_url, {

@@ -125,8 +125,12 @@ def get_dealer_reviews(request, dealer_id):
             # Appel au microservice d'analyse de sentiment
             response = analyze_review_sentiments(review_detail['review'])
             print(response)
-            # Ajout du sentiment dans le dictionnaire de l'avis
-            review_detail['sentiment'] = response['sentiment']
+            
+            # ON AJOUTE UNE SÉCURITÉ ICI :
+            if response is not None and 'sentiment' in response:
+                review_detail['sentiment'] = response['sentiment']
+            else:
+                review_detail['sentiment'] = "neutral" # Valeur par défaut si le service est absent
         return JsonResponse({"status": 200, "reviews": reviews})
     else:
         return JsonResponse({"status": 400, "message": "Bad request"})

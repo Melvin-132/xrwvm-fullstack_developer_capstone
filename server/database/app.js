@@ -16,14 +16,14 @@ mongoose.connect("mongodb://mongo_db:27017/",{'dbName':'dealershipsDB'});
 
 const Reviews = require('./review');
 
-const Dealerships = require('./dealership');
+const Dealers = require('./dealership');
 
 try {
   Reviews.deleteMany({}).then(()=>{
     Reviews.insertMany(reviews_data['reviews']);
   });
-  Dealerships.deleteMany({}).then(()=>{
-    Dealerships.insertMany(dealerships_data['dealerships']);
+  Dealers.deleteMany({}).then(()=>{
+    Dealers.insertMany(dealerships_data['dealerships']);
   });
   
 } catch (error) {
